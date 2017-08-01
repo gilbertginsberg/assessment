@@ -1,5 +1,4 @@
-
-Javascript/Frontend Programmer - Exercise 1
+Digital Natives Javascript/Frontend Programmer - Exercise 1
 =============================
 
 Fork this project with the original description and write your own code. Don't use external library for the conversion.
