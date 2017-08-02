@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+}
+
+#page-container {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 300px;
+    border: 1px solid black;
+}
+
+input {
+    margin: 2px;
+}
+
+#phrase {
+    text-align: center;
+    margin-top: 50px;
+    width: 300px;
+    border-bottom: 5px solid black;
+}
