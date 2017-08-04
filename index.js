@@ -49,6 +49,7 @@ window.onload = () => {
       engPhrase.textContent = `${partOne}-${partTwo}`;
     } else if (number.value.length === 3) {
       const tenMultiple = number.value.slice(1);
+      console.log(`tenMult is ${tenMultiple}`);
       const second = baseNums[`${number.value[1]}0`];
       const third = baseNums[`${number.value[2]}`];
       console.log(`second is ${second}`);
@@ -57,8 +58,8 @@ window.onload = () => {
       console.log(tenMultiple);
       const partOne = `${baseNums[number.value[0]]}-hundred`;
       const partTwo = baseNums[tenMultiple] ? baseNums[tenMultiple] : `${second}-${third}`;
-
-      engPhrase.textContent = `${partOne} ${partTwo}`;
+      console.log(tenMultiple == 00);
+      engPhrase.textContent = tenMultiple === '00' ? partOne : `${partOne} ${partTwo}`;
     }
   }
 
