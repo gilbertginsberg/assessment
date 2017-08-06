@@ -34,14 +34,46 @@ window.onload = () => {
     90: 'ninety',
   };
 
-  function genBaseNumPhrase(index) {
-    const phrase = baseNums[number.value[index]];
+  function chopOffFirstDigit() {
+    return number.value.slice(1);
+  }
+
+  function genBaseNumPhrase(digit) {
+    const phrase = baseNums[number.value[digit]];
     return phrase;
   }
 
-  function genMultipleOfTenPhrase(index) {
-    const phrase = baseNums[`${number.value[index]}0`];
+  function genMultipleOfTenPhrase(digit) {
+    const phrase = baseNums[`${number.value[digit]}0`];
     return phrase;
+  }
+
+  function genLessThan100Phrase() {
+    const partOne = genMultipleOfTenPhrase(0);
+    const partTwo = genBaseNumPhrase(1);
+
+    engPhrase.textContent = `${partOne}-${partTwo}`;
+    return engPhrase.text;
+  }
+
+  function gen100to999Phrase(multTenIndex, lastDigit) {
+    const lastTwoDigits = chopOffFirstDigit();
+    const secondDigitPhrase = genMultipleOfTenPhrase(multTenIndex);
+    const thirdDigitPhrase = genBaseNumPhrase(lastDigit);
+    const partOne = `${genBaseNumPhrase(0)} hundred`;
+    const partTwo = baseNums[lastTwoDigits] ? baseNums[lastTwoDigits] : `${secondDigitPhrase}-${thirdDigitPhrase}`;
+
+    engPhrase.textContent = lastTwoDigits === '00' ? partOne : `${partOne} ${partTwo}`;
+    return engPhrase.textContent;
+  }
+
+  function gen1000to9999Phrase() {
+    const lastThreeDigits = chopOffFirstDigit();
+    const partOne = `${genBaseNumPhrase(0)} thousand`;
+    const partTwo = gen100to999Phrase(2, 3);
+
+    engPhrase.textContent = lastThreeDigits === '000' ? partOne : `${partOne} ${partTwo}`;
+    return engPhrase.textContent;
   }
 
   function convertNumToEngPhrase(e) {
@@ -53,24 +85,15 @@ window.onload = () => {
 
     // Covers all non-harcoded numbers < 100 
     } else if (number.value.length === 2) {
-        const partOne = genMultipleOfTenPhrase(0);
-        const partTwo = genBaseNumPhrase(1); 
-
-        engPhrase.textContent = `${partOne}-${partTwo}`;
+      return genLessThan100Phrase();
 
     // Covers numbers 100 to 999 
     } else if (number.value.length === 3) {
-        const lastTwoDigits = number.value.slice(1);
-        const secondDigitPhrase = genMultipleOfTenPhrase(1);
-        const thirdDigitPhrase = genBaseNumPhrase(2); 
-        const partOne = `${genBaseNumPhrase(0)} hundred`;
-        const partTwo = baseNums[lastTwoDigits] ? baseNums[lastTwoDigits] : `${secondDigitPhrase}-${thirdDigitPhrase}`;
-
-        engPhrase.textContent = lastTwoDigits === '00' ? partOne : `${partOne} ${partTwo}`;
+      gen100to999Phrase(1, 2);
 
     // Covers numbers 1000 to 9999
     } else if (number.value.length === 4) {
-     
+      return gen1000to9999Phrase();
     }
   }
 
