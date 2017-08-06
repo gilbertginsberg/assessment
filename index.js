@@ -3,7 +3,7 @@ window.onload = () => {
   const number = document.querySelector('#num');
   const engPhrase = document.querySelector('#eng-phrase');
 
-  const baseNums = { 
+  const baseNums = {
     0: 'zero',
     1: 'one',
     2: 'two',
@@ -34,32 +34,43 @@ window.onload = () => {
     90: 'ninety',
   };
 
-  const bigNums = ['hundred', 'thousand', 'million', 'billion', 'trillion'];
+  function genBaseNumPhrase(index) {
+    const phrase = baseNums[number.value[index]];
+    return phrase;
+  }
+
+  function genMultipleOfTenPhrase(index) {
+    const phrase = baseNums[`${number.value[index]}0`];
+    return phrase;
+  }
 
   function convertNumToEngPhrase(e) {
     e.preventDefault();
 
-    /* Covers all hardcoded numbers */
+    // Covers all hardcoded numbers 
     if (baseNums[number.value]) {
       engPhrase.textContent = baseNums[number.value];
-    /* Covers all non-harcoded numbers < 100 */ 
+
+    // Covers all non-harcoded numbers < 100 
     } else if (number.value.length === 2) {
-      const partOne = baseNums[`${number.value[0]}0`];
-      const partTwo = baseNums[number.value[1]];
-      engPhrase.textContent = `${partOne}-${partTwo}`;
+        const partOne = genMultipleOfTenPhrase(0);
+        const partTwo = genBaseNumPhrase(1); 
+
+        engPhrase.textContent = `${partOne}-${partTwo}`;
+
+    // Covers numbers 100 to 999 
     } else if (number.value.length === 3) {
-      const tenMultiple = number.value.slice(1);
-      console.log(`tenMult is ${tenMultiple}`);
-      const second = baseNums[`${number.value[1]}0`];
-      const third = baseNums[`${number.value[2]}`];
-      console.log(`second is ${second}`);
-      console.log(`third is ${third}`);
+        const lastTwoDigits = number.value.slice(1);
+        const secondDigitPhrase = genMultipleOfTenPhrase(1);
+        const thirdDigitPhrase = genBaseNumPhrase(2); 
+        const partOne = `${genBaseNumPhrase(0)} hundred`;
+        const partTwo = baseNums[lastTwoDigits] ? baseNums[lastTwoDigits] : `${secondDigitPhrase}-${thirdDigitPhrase}`;
+
+        engPhrase.textContent = lastTwoDigits === '00' ? partOne : `${partOne} ${partTwo}`;
+
+    // Covers numbers 1000 to 9999
+    } else if (number.value.length === 4) {
      
-      console.log(tenMultiple);
-      const partOne = `${baseNums[number.value[0]]}-hundred`;
-      const partTwo = baseNums[tenMultiple] ? baseNums[tenMultiple] : `${second}-${third}`;
-      console.log(tenMultiple == 00);
-      engPhrase.textContent = tenMultiple === '00' ? partOne : `${partOne} ${partTwo}`;
     }
   }
 
