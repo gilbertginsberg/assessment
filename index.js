@@ -109,7 +109,7 @@ window.onload = () => {
 
     // Covers numbers 100 to 999
     } else if (number.value.length === 3) {
-      return gen100to999Phrase(1, 2);
+      return gen100to999Phrase();
 
     // Covers numbers 1000 to 9999
     } else if (number.value.length === 4) {
