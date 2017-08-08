@@ -34,67 +34,89 @@ window.onload = () => {
     90: 'ninety',
   };
 
-  function chopOffFirstDigit() {
-    return number.value.slice(1);
+  // **Helper functions**
+  function sliceFirstDigit(digit) {
+    const slicer = number.value.length - digit;
+    return number.value.slice(slicer);
   }
 
-  function genBaseNumPhrase(digit) {
-    const phrase = baseNums[number.value[digit]];
-    return phrase;
+  function genMultipleOfTenPhrase() {
+    const secondToLastIndex = number.value.length - 2;
+    const value = number.value[secondToLastIndex];
+    let multOfTenPhrase = baseNums[`${value}0`];
+
+    if (!multOfTenPhrase) {
+      multOfTenPhrase = '';
+    }
+    return multOfTenPhrase;
   }
 
-  function genMultipleOfTenPhrase(digit) {
-    const phrase = baseNums[`${number.value[digit]}0`];
-    return phrase;
-  }
+  function genLessThanTenPhrase() {
+    const lastIndex = number.value.length - 1;
+    const value = number.value[lastIndex];
+    const lessThanTenPhrase = baseNums[value];
 
+    return lessThanTenPhrase;
+  }
+  // **
+
+  // **Produce english equivalent phrases for numbers 0 to 1 trillion**
   function genLessThan100Phrase() {
-    const partOne = genMultipleOfTenPhrase(0);
-    const partTwo = genBaseNumPhrase(1);
+    const secondToLastIndex = number.value[number.value.length - 2];
+    const multOfTenPhrase = genMultipleOfTenPhrase();
+    const lessThanTenPhrase = genLessThanTenPhrase();
+    engPhrase.textContent = secondToLastIndex === '0' ? `and ${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
 
-    engPhrase.textContent = `${partOne}-${partTwo}`;
-    return engPhrase.text;
+    return engPhrase.textContent;
   }
 
-  function gen100to999Phrase(multTenIndex, lastDigit) {
-    const lastTwoDigits = chopOffFirstDigit();
-    const secondDigitPhrase = genMultipleOfTenPhrase(multTenIndex);
-    const thirdDigitPhrase = genBaseNumPhrase(lastDigit);
-    const partOne = `${genBaseNumPhrase(0)} hundred`;
-    const partTwo = baseNums[lastTwoDigits] ? baseNums[lastTwoDigits] : `${secondDigitPhrase}-${thirdDigitPhrase}`;
+  function gen100to999Phrase() {
+    const lastTwoDigits = sliceFirstDigit(2);
+    const thirdToLastIndex = number.value.length - 3;
+    const value = number.value[thirdToLastIndex];
+    const hundredPhrase = baseNums[value] === 'zero' ? '' : `${baseNums[value]} hundred`;
+    const lessThan100Phrase = genLessThan100Phrase();
+    const fullPhrase = baseNums[lastTwoDigits] ? `${hundredPhrase} ${baseNums[lastTwoDigits]}` : `${hundredPhrase} ${lessThan100Phrase}`;
 
-    engPhrase.textContent = lastTwoDigits === '00' ? partOne : `${partOne} ${partTwo}`;
+    engPhrase.textContent = lastTwoDigits === '00' ? hundredPhrase : fullPhrase;
+
     return engPhrase.textContent;
   }
 
   function gen1000to9999Phrase() {
-    const lastThreeDigits = chopOffFirstDigit();
-    const partOne = `${genBaseNumPhrase(0)} thousand`;
-    const partTwo = gen100to999Phrase(2, 3);
+    const lastThreeDigits = sliceFirstDigit(3);
+    const fourthToLastIndex = number.value.length - 4;
+    const value = number.value[fourthToLastIndex];
+    const thousandPhrase = `${baseNums[value]} thousand`;
+    const hundredPhrase = gen100to999Phrase();
 
-    engPhrase.textContent = lastThreeDigits === '000' ? partOne : `${partOne} ${partTwo}`;
+    engPhrase.textContent = lastThreeDigits === '000' ? thousandPhrase : `${thousandPhrase} ${hundredPhrase}`;
+
     return engPhrase.textContent;
   }
 
   function convertNumToEngPhrase(e) {
     e.preventDefault();
 
-    // Covers all hardcoded numbers 
+    // Covers all hardcoded numbers
     if (baseNums[number.value]) {
       engPhrase.textContent = baseNums[number.value];
+      return engPhrase.textContent;
 
-    // Covers all non-harcoded numbers < 100 
+    // Covers all non-harcoded numbers < 100
     } else if (number.value.length === 2) {
       return genLessThan100Phrase();
 
-    // Covers numbers 100 to 999 
+    // Covers numbers 100 to 999
     } else if (number.value.length === 3) {
-      gen100to999Phrase(1, 2);
+      return gen100to999Phrase(1, 2);
 
     // Covers numbers 1000 to 9999
     } else if (number.value.length === 4) {
       return gen1000to9999Phrase();
     }
+
+    return console.log('bad number amiguito');
   }
 
   form.addEventListener('submit', convertNumToEngPhrase, false);
