@@ -51,25 +51,32 @@ window.onload = () => {
     return multOfTenPhrase;
   }
 
+   // Covers numbers 0 to 9
   function genLessThanTenPhrase() {
     const lastIndex = number.value.length - 1;
     const value = number.value[lastIndex];
     const lessThanTenPhrase = baseNums[value];
 
-    return lessThanTenPhrase;
+    engPhrase.textContent = lessThanTenPhrase;
+    return engPhrase.textContent;
   }
-  // **
 
-  // **Produce english equivalent phrases for numbers 0 to 1 trillion**
+  // Covers all numbers 10 to 99
   function genLessThan100Phrase() {
     const secondToLastIndex = number.value[number.value.length - 2];
     const multOfTenPhrase = genMultipleOfTenPhrase();
     const lessThanTenPhrase = genLessThanTenPhrase();
-    engPhrase.textContent = secondToLastIndex === '0' ? `${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
+
+    if (number.value.length === 2 && baseNums[number.value]) {
+      engPhrase.textContent = multOfTenPhrase;
+    } else {
+      engPhrase.textContent = secondToLastIndex === '0' ? `${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
+    }
 
     return engPhrase.textContent;
   }
 
+  // Covers numbers 100 to 999
   function gen100to999Phrase() {
     const lastTwoDigits = sliceFirstDigit(2);
     const thirdToLastIndex = number.value.length - 3;
@@ -83,6 +90,7 @@ window.onload = () => {
     return engPhrase.textContent;
   }
 
+  // Covers numbers 1000 to 9999
   function gen1000to9999Phrase() {
     const lastThreeDigits = sliceFirstDigit(3);
     const fourthToLastIndex = number.value.length - 4;
@@ -95,15 +103,18 @@ window.onload = () => {
     return engPhrase.textContent;
   }
 
+  function genTenThousandsPhrase() {
+
+  }
+
   function convertNumToEngPhrase(e) {
     e.preventDefault();
 
-    // Covers all hardcoded numbers
-    if (baseNums[number.value]) {
-      engPhrase.textContent = baseNums[number.value];
-      return engPhrase.textContent;
+    // Covers numbers 0 to 9
+    if (number.value.length === 1) {
+      return genLessThanTenPhrase();
 
-    // Covers all non-harcoded numbers < 100
+    // Covers all numbers 10 to 99
     } else if (number.value.length === 2) {
       return genLessThan100Phrase();
 
@@ -114,6 +125,10 @@ window.onload = () => {
     // Covers numbers 1000 to 9999
     } else if (number.value.length === 4) {
       return gen1000to9999Phrase();
+ 
+    // Covers numbers 10,000 to 99,999
+    } else if (number.value.length === 5) {
+    
     }
 
     return console.log('bad number amiguito');
