@@ -65,7 +65,7 @@ window.onload = () => {
     const secondToLastIndex = number.value[number.value.length - 2];
     const multOfTenPhrase = genMultipleOfTenPhrase();
     const lessThanTenPhrase = genLessThanTenPhrase();
-    engPhrase.textContent = secondToLastIndex === '0' ? `and ${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
+    engPhrase.textContent = secondToLastIndex === '0' ? `${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
 
     return engPhrase.textContent;
   }
@@ -77,7 +77,7 @@ window.onload = () => {
     const hundredPhrase = baseNums[value] === 'zero' ? '' : `${baseNums[value]} hundred`;
     const lessThan100Phrase = genLessThan100Phrase();
     const fullPhrase = baseNums[lastTwoDigits] ? `${hundredPhrase} ${baseNums[lastTwoDigits]}` : `${hundredPhrase} ${lessThan100Phrase}`;
-
+    console.log(`fullPhrase is ${fullPhrase}`);
     engPhrase.textContent = lastTwoDigits === '00' ? hundredPhrase : fullPhrase;
 
     return engPhrase.textContent;
@@ -87,7 +87,7 @@ window.onload = () => {
     const lastThreeDigits = sliceFirstDigit(3);
     const fourthToLastIndex = number.value.length - 4;
     const value = number.value[fourthToLastIndex];
-    const thousandPhrase = `${baseNums[value]} thousand`;
+    const thousandPhrase = value === '0' ? '' : `${baseNums[value]} thousand`;
     const hundredPhrase = gen100to999Phrase();
 
     engPhrase.textContent = lastThreeDigits === '000' ? thousandPhrase : `${thousandPhrase} ${hundredPhrase}`;
