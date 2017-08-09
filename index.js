@@ -103,23 +103,37 @@ window.onload = () => {
   }
 
   // Covers numbers 10,000 to 99,000
-  function genTenThousandsPhrase() {
+  function genTenThousandPhrase() {
     const fourthToLastIndex = unPaddedNumber.length - 4;
     const valueOfFourthToLastDigit = unPaddedNumber[fourthToLastIndex];
     const fifthToLastIndex = unPaddedNumber.length - 5;
     const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
     const fourthAndFifthToLastDigits = `${valueOfFifthToLastDigit}${valueOfFourthToLastDigit}`;
     const multOfTenPhrase = genMultipleOfTenPhrase(valueOfFifthToLastDigit);
-    const tenThousandPhrase = baseNums[fourthAndFifthToLastDigits] ? `${baseNums[fourthAndFifthToLastDigits]} thousand` : `${multOfTenPhrase}-${baseNums[valueOfFourthToLastDigit]} thousand`;
     const hundredPhrase = gen100to999Phrase();
+    let tenThousandPhrase = '';
+
+    if (baseNums[fourthAndFifthToLastDigits]) {
+      tenThousandPhrase = `${baseNums[fourthAndFifthToLastDigits]} thousand`;
+    } else if (valueOfFifthToLastDigit === '0') {
+      tenThousandPhrase = 'thousand';
+    } else {
+      tenThousandPhrase = `${multOfTenPhrase}-${baseNums[valueOfFourthToLastDigit]} thousand`;
+    }
 
     engPhrase.textContent = `${tenThousandPhrase} ${hundredPhrase}`;
     return engPhrase.textContent;
   }
 
   // Covers numbers 100,000 to 999,999
-  function gen100ThousandsPhrase() {
+  function gen100ThousandPhrase() {
+    const sixthToLastIndex = unPaddedNumber.length - 6;
+    const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
+    const tenThousandPhrase = genTenThousandPhrase();
+    const hundredThousandPhrase = valueOfSixthToLastDigit === 'O' ? '' : `${baseNums[valueOfSixthToLastDigit]} hundred`;
 
+    engPhrase.textContent = `${hundredThousandPhrase} ${tenThousandPhrase}`;
+    return engPhrase.textContent;
   }
 
   // Covers numbers 1,000,000 to 9,999,999
@@ -137,9 +151,9 @@ window.onload = () => {
     } else if (num.length === 4) {
       return gen1000to9999Phrase();
     } else if (num.length === 5) {
-      return genTenThousandsPhrase();
+      return genTenThousandPhrase();
     } else if (num.length === 6) {
-  
+      return gen100ThousandPhrase();
     } else if (num.length === 7) {
   
     } else if (num.length === 8) {
