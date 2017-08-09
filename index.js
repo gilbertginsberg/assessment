@@ -94,7 +94,7 @@ window.onload = () => {
     const lastThreeDigits = slicedNumber(3);
     const fourthToLastIndex = unPaddedNumber.length - 4;
     const valueOfFourthToLastDigit = unPaddedNumber[fourthToLastIndex];
-    const thousandPhrase = valueOfFourthToLastDigit === '0' ? '' : `${baseNums[valueOfFourthToLastDigit]} thousand`;
+    const thousandPhrase = valueOfFourthToLastDigit === '0' ? 'thousand' : `${baseNums[valueOfFourthToLastDigit]} thousand`;
     const hundredPhrase = gen100to999Phrase();
 
     engPhrase.textContent = lastThreeDigits === '000' ? thousandPhrase : `${thousandPhrase} ${hundredPhrase}`;
@@ -115,8 +115,6 @@ window.onload = () => {
 
     if (baseNums[fourthAndFifthToLastDigits]) {
       tenThousandPhrase = `${baseNums[fourthAndFifthToLastDigits]} thousand`;
-    } else if (valueOfFifthToLastDigit === '0') {
-      tenThousandPhrase = 'thousand';
     } else {
       tenThousandPhrase = `${multOfTenPhrase}-${baseNums[valueOfFourthToLastDigit]} thousand`;
     }
@@ -127,18 +125,47 @@ window.onload = () => {
 
   // Covers numbers 100,000 to 999,999
   function gen100ThousandPhrase() {
+    const fifthToLastIndex = unPaddedNumber.length - 5;
+    const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
     const sixthToLastIndex = unPaddedNumber.length - 6;
     const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
     const tenThousandPhrase = genTenThousandPhrase();
-    const hundredThousandPhrase = valueOfSixthToLastDigit === '0' ? '' : `${baseNums[valueOfSixthToLastDigit]} hundred`;
+    const thousandPhrase = gen1000to9999Phrase();
+    let hundredThousandPhrase = '';
 
-    engPhrase.textContent = `${hundredThousandPhrase} ${tenThousandPhrase}`;
+    if (valueOfFifthToLastDigit === '0') {
+      hundredThousandPhrase = `${baseNums[valueOfSixthToLastDigit]} hundred ${thousandPhrase}`;
+    } else if (valueOfSixthToLastDigit === '0') {
+      hundredThousandPhrase = tenThousandPhrase;
+    } else {
+      hundredThousandPhrase = `${baseNums[valueOfSixthToLastDigit]} hundred ${tenThousandPhrase}`;
+    }
+
+    engPhrase.textContent = hundredThousandPhrase;
     return engPhrase.textContent;
   }
 
   // Covers numbers 1,000,000 to 9,999,999
-  function genMillionsPhrase() {
+  function genMillionPhrase() {
+    const thirdToLastIndex = unPaddedNumber.length - 3;
+    const sixthToLastIndex = unPaddedNumber.length - 6;
+    const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
+    const seventhToLastIndex = unPaddedNumber.length - 7;
+    const valueOfSeventhToLastDigit = unPaddedNumber[seventhToLastIndex];
+    const digitsOfThousandRange = unPaddedNumber.slice(sixthToLastIndex, thirdToLastIndex);
+    const hundredPhrase = gen100to999Phrase();
+    const hundredThousandPhrase = gen100ThousandPhrase();
+    const millionPhrase = `${baseNums[valueOfSeventhToLastDigit]} million`;
 
+    if (digitsOfThousandRange === '000') {
+      engPhrase.textContent = `${millionPhrase} ${hundredPhrase}`;
+    } else if (valueOfSixthToLastDigit === '0') {
+      engPhrase.textContent = `${millionPhrase} ${hundredThousandPhrase}`;
+    } else {
+      engPhrase.textContent = `${millionPhrase} ${hundredThousandPhrase}`;
+    }
+
+    return engPhrase.textContent;
   }
 
   function convertNumToEngPhrase(num) {
@@ -155,22 +182,10 @@ window.onload = () => {
     } else if (num.length === 6) {
       return gen100ThousandPhrase();
     } else if (num.length === 7) {
-  
-    } else if (num.length === 8) {
-  
-    } else if (num.length === 9) {
-  
-    } else if (num.length=== 10) {
-  
-    } else if (num.length === 11) {
-  
-    } else if (num.length === 12) {
-  
-    } else if (num.length === 13) {
-  
+      return genMillionPhrase();
     }
 
-    return alert('Hola amigo o amiga. Please enter a number, 1 through 1 trillion, and you will find magic.');
+    return alert('Hola amigo o amiga. Please enter a number, from 0 to anything below 10 Million, and you will find magic.');
   }
 
   function removePaddedZeros(e) {
