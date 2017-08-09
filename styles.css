@@ -10,6 +10,7 @@ body {
     background-color: #D32F2F;
     color:#fff;
     font-family: "Arial", sans-serif;
+    font-size: medium;
 }
 
 #page-container {
@@ -25,18 +26,22 @@ form {
     justify-content: center;
     align-items: center;
     height: 100px;
-    width: 500px;
-    border: 1px solid #fff;
+    width: 520px;
+    border: 5px solid #fff;
+    border-radius: 23px;
+    font-size: 125%;
 }
 
 input {
     font-family: inherit;
+    font-size: 125%;
     margin: 5px;
 }
 
 #eng-phrase {
     text-align: center;
     margin-top: 50px;
-    width: 300px;
+    width: 500px;
     border-bottom: 5px solid #fff;
+    font-size: 125%;
 }

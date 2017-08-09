@@ -146,7 +146,7 @@ window.onload = () => {
     
     }
 
-    return console.log('bad number amiguito');
+    return alert('Hola amigo o amiga. Please enter a number, 1 through 1 trillion, and you will find magic.');
   }
 
   form.addEventListener('submit', convertNumToEngPhrase, false);
