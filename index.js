@@ -43,34 +43,34 @@ window.onload = () => {
   function genMultipleOfTenPhrase() {
     const secondToLastIndex = number.value.length - 2;
     const value = number.value[secondToLastIndex];
-    let multOfTenPhrase = baseNums[`${value}0`];
+    const multOfTenPhrase = baseNums[`${value}0`];
 
-    if (!multOfTenPhrase) {
-      multOfTenPhrase = '';
-    }
     return multOfTenPhrase;
   }
 
    // Covers numbers 0 to 9
   function genLessThanTenPhrase() {
-    const lastIndex = number.value.length - 1;
-    const value = number.value[lastIndex];
-    const lessThanTenPhrase = baseNums[value];
+    const lastDigit = number.value.length - 1;
+    const valueOfLastDigit = number.value[lastDigit];
+    const lessThanTenPhrase = baseNums[valueOfLastDigit];
 
     engPhrase.textContent = lessThanTenPhrase;
     return engPhrase.textContent;
   }
 
-  // Covers all numbers 10 to 99
+  // Covers numbers 10 to 99
   function genLessThan100Phrase() {
-    const secondToLastIndex = number.value[number.value.length - 2];
+    const secondToLastIndex = number.value.length - 2;
+    const valueOfSecondToLastDigit = number.value[secondToLastIndex];
+
+    // Phrasal chunks
     const multOfTenPhrase = genMultipleOfTenPhrase();
     const lessThanTenPhrase = genLessThanTenPhrase();
 
     if (number.value.length === 2 && baseNums[number.value]) {
       engPhrase.textContent = multOfTenPhrase;
     } else {
-      engPhrase.textContent = secondToLastIndex === '0' ? `${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
+      engPhrase.textContent = valueOfSecondToLastDigit === '0' ? `${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
     }
 
     return engPhrase.textContent;
@@ -80,11 +80,13 @@ window.onload = () => {
   function gen100to999Phrase() {
     const lastTwoDigits = sliceFirstDigit(2);
     const thirdToLastIndex = number.value.length - 3;
-    const value = number.value[thirdToLastIndex];
-    const hundredPhrase = baseNums[value] === 'zero' ? '' : `${baseNums[value]} hundred`;
+    const valueOfThirdToLastDigit = number.value[thirdToLastIndex];
+
+    // Phrasal chunks
+    const hundredPhrase = baseNums[valueOfThirdToLastDigit] === 'zero' ? '' : `${baseNums[valueOfThirdToLastDigit]} hundred`;
     const lessThan100Phrase = genLessThan100Phrase();
     const fullPhrase = baseNums[lastTwoDigits] ? `${hundredPhrase} ${baseNums[lastTwoDigits]}` : `${hundredPhrase} ${lessThan100Phrase}`;
-    console.log(`fullPhrase is ${fullPhrase}`);
+
     engPhrase.textContent = lastTwoDigits === '00' ? hundredPhrase : fullPhrase;
 
     return engPhrase.textContent;
@@ -94,8 +96,10 @@ window.onload = () => {
   function gen1000to9999Phrase() {
     const lastThreeDigits = sliceFirstDigit(3);
     const fourthToLastIndex = number.value.length - 4;
-    const value = number.value[fourthToLastIndex];
-    const thousandPhrase = value === '0' ? '' : `${baseNums[value]} thousand`;
+    const valueOfFourthToLastDigit = number.value[fourthToLastIndex];
+
+    // Phrasal chunks
+    const thousandPhrase = valueOfFourthToLastDigit === '0' ? '' : `${baseNums[valueOfFourthToLastDigit]} thousand`;
     const hundredPhrase = gen100to999Phrase();
 
     engPhrase.textContent = lastThreeDigits === '000' ? thousandPhrase : `${thousandPhrase} ${hundredPhrase}`;
@@ -103,7 +107,18 @@ window.onload = () => {
     return engPhrase.textContent;
   }
 
+  // Covers numbers 10,000 to 99,000
   function genTenThousandsPhrase() {
+
+  }
+
+  // Covers numbers 100,000 to 999,999
+  function gen100ThousandsPhrase() {
+
+  }
+
+  // Covers numbers 1,000,000 to 9,999,999
+  function genMillionsPhrase() {
 
   }
 
