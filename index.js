@@ -2,7 +2,7 @@ window.onload = () => {
   const form = document.querySelector('form');
   const number = document.querySelector('#num');
   const engPhrase = document.querySelector('#eng-phrase');
-  let unPaddedNumber = number.value;
+  let unPaddedNumber = '';
 
   const baseNums = {
     0: 'zero',
@@ -163,15 +163,11 @@ window.onload = () => {
     e.preventDefault();
 
     const numArr = number.value.split('');
+    const indexOfFirstNonZeroNum = numArr.findIndex(num => num > 0);
 
-    numArr.forEach((num, index) => {
-      if (num === '0') {
-        unPaddedNumber = number.value.slice(index + 1);
-      } else {
-        console.log(`unPaddedNumber is ${unPaddedNumber}`);
-        return convertNumToEngPhrase(unPaddedNumber);
-      }
-    });
+    unPaddedNumber = number.value.slice(indexOfFirstNonZeroNum);
+
+    convertNumToEngPhrase(unPaddedNumber);
   }
 
   form.addEventListener('submit', removePaddedZeros, false);
