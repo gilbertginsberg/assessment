@@ -54,11 +54,8 @@ window.onload = () => {
     const valueOfLastDigit = unPaddedNumber[lastIndex];
     const lessThanTenPhrase = baseNums[valueOfLastDigit];
 
-    if (unPaddedNumber.length >= 3) {
-      engPhrase.textContent = `and ${lessThanTenPhrase}`;
-    } else {
-      engPhrase.textContent = lessThanTenPhrase;
-    }
+    engPhrase.textContent = lessThanTenPhrase;
+
     return engPhrase.textContent;
   }
 
