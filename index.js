@@ -130,7 +130,7 @@ window.onload = () => {
     const sixthToLastIndex = unPaddedNumber.length - 6;
     const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
     const tenThousandPhrase = genTenThousandPhrase();
-    const hundredThousandPhrase = valueOfSixthToLastDigit === 'O' ? '' : `${baseNums[valueOfSixthToLastDigit]} hundred`;
+    const hundredThousandPhrase = valueOfSixthToLastDigit === '0' ? '' : `${baseNums[valueOfSixthToLastDigit]} hundred`;
 
     engPhrase.textContent = `${hundredThousandPhrase} ${tenThousandPhrase}`;
     return engPhrase.textContent;
