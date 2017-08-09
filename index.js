@@ -83,7 +83,7 @@ window.onload = () => {
     const lastTwoDigits = slicedNumber(2);
     const thirdToLastIndex = unPaddedNumber.length - 3;
     const valueOfThirdToLastDigit = unPaddedNumber[thirdToLastIndex];
-    const hundredPhrase = baseNums[valueOfThirdToLastDigit] === 'zero' ? '' : `${baseNums[valueOfThirdToLastDigit]} hundred`;
+    const hundredPhrase = valueOfThirdToLastDigit === '0' ? '' : `${baseNums[valueOfThirdToLastDigit]} hundred`;
     const lessThan100Phrase = genLessThan100Phrase();
     const fullPhrase = baseNums[lastTwoDigits] ? `${hundredPhrase} ${baseNums[lastTwoDigits]}` : `${hundredPhrase} ${lessThan100Phrase}`;
 
@@ -107,10 +107,13 @@ window.onload = () => {
 
   // Covers numbers 10,000 to 99,000
   function genTenThousandsPhrase() {
-    const lastFourDigits = slicedNumber(4);
-    const secondDigit = unPaddedNumber[1];
-    const multOfTenPhrase = genMultipleOfTenPhrase(unPaddedNumber[0]);
-    const tenThousandPhrase = secondDigit === '0' ? `${multOfTenPhrase} thousand` : `${multOfTenPhrase}-${baseNums[unPaddedNumber[1]]} thousand`;
+    const fourthToLastIndex = unPaddedNumber.length - 4;
+    const valueOfFourthToLastDigit = unPaddedNumber[fourthToLastIndex];
+    const fifthToLastIndex = unPaddedNumber.length - 5;
+    const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
+    const fourthAndFifthToLastDigits = `${valueOfFifthToLastDigit}${valueOfFourthToLastDigit}`;
+    const multOfTenPhrase = genMultipleOfTenPhrase(valueOfFifthToLastDigit);
+    const tenThousandPhrase = baseNums[fourthAndFifthToLastDigits] ? `${baseNums[fourthAndFifthToLastDigits]} thousand` : `${multOfTenPhrase}-${baseNums[valueOfFourthToLastDigit]} thousand`;
     const hundredPhrase = gen100to999Phrase();
 
     engPhrase.textContent = `${tenThousandPhrase} ${hundredPhrase}`;
@@ -167,7 +170,7 @@ window.onload = () => {
 
     unPaddedNumber = number.value.slice(indexOfFirstNonZeroNum);
 
-    convertNumToEngPhrase(unPaddedNumber);
+    return convertNumToEngPhrase(unPaddedNumber);
   }
 
   form.addEventListener('submit', removePaddedZeros, false);
