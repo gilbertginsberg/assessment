@@ -35,20 +35,19 @@ window.onload = () => {
   };
 
   // **Helper functions**
-  function sliceFirstDigit(digit) {
-    const slicer = number.value.length - digit;
-    return number.value.slice(slicer);
+  function slicedNumber(digit) {
+    const indexToSliceFrom = number.value.length - digit;
+    const slicedNum = number.value.slice(indexToSliceFrom);
+    return slicedNum;
   }
 
-  function genMultipleOfTenPhrase() {
-    const secondToLastIndex = number.value.length - 2;
-    const value = number.value[secondToLastIndex];
-    const multOfTenPhrase = baseNums[`${value}0`];
-
+  function genMultipleOfTenPhrase(digit) {
+    const multOfTenPhrase = baseNums[`${digit}0`];
     return multOfTenPhrase;
   }
+  // **
 
-   // Covers numbers 0 to 9
+   // *Covers numbers 0 to 9*
   function genLessThanTenPhrase() {
     const lastDigit = number.value.length - 1;
     const valueOfLastDigit = number.value[lastDigit];
@@ -58,13 +57,13 @@ window.onload = () => {
     return engPhrase.textContent;
   }
 
-  // Covers numbers 10 to 99
+  // *Covers numbers 10 to 99*
   function genLessThan100Phrase() {
     const secondToLastIndex = number.value.length - 2;
     const valueOfSecondToLastDigit = number.value[secondToLastIndex];
 
     // Phrasal chunks
-    const multOfTenPhrase = genMultipleOfTenPhrase();
+    const multOfTenPhrase = genMultipleOfTenPhrase(valueOfSecondToLastDigit);
     const lessThanTenPhrase = genLessThanTenPhrase();
 
     if (number.value.length === 2 && baseNums[number.value]) {
@@ -76,9 +75,9 @@ window.onload = () => {
     return engPhrase.textContent;
   }
 
-  // Covers numbers 100 to 999
+  // *Covers numbers 100 to 999*
   function gen100to999Phrase() {
-    const lastTwoDigits = sliceFirstDigit(2);
+    const lastTwoDigits = slicedNumber(2);
     const thirdToLastIndex = number.value.length - 3;
     const valueOfThirdToLastDigit = number.value[thirdToLastIndex];
 
@@ -92,9 +91,9 @@ window.onload = () => {
     return engPhrase.textContent;
   }
 
-  // Covers numbers 1000 to 9999
+  // *Covers numbers 1000 to 9999*
   function gen1000to9999Phrase() {
-    const lastThreeDigits = sliceFirstDigit(3);
+    const lastThreeDigits = slicedNumber(3);
     const fourthToLastIndex = number.value.length - 4;
     const valueOfFourthToLastDigit = number.value[fourthToLastIndex];
 
@@ -109,7 +108,16 @@ window.onload = () => {
 
   // Covers numbers 10,000 to 99,000
   function genTenThousandsPhrase() {
+    const lastFourDigits = slicedNumber(4);
+    const fifthToLastIndex = number.value.length - 5;
+    const valueOfFifthToLastIndex = number.value[fifthToLastIndex];
+    const multOfTenPhrase = genMultipleOfTenPhrase(number.value[0]);
+    console.log(`multOfTenPhrase is ${multOfTenPhrase}`);
 
+    // Phrase chunks 
+    const tenThousandPhrase = `${multOfTenPhrase} thousand`;
+    engPhrase.textContent = tenThousandPhrase;
+    return engPhrase.textContent;
   }
 
   // Covers numbers 100,000 to 999,999
@@ -125,24 +133,31 @@ window.onload = () => {
   function convertNumToEngPhrase(e) {
     e.preventDefault();
 
-    // Covers numbers 0 to 9
     if (number.value.length === 1) {
       return genLessThanTenPhrase();
-
-    // Covers all numbers 10 to 99
     } else if (number.value.length === 2) {
       return genLessThan100Phrase();
-
-    // Covers numbers 100 to 999
     } else if (number.value.length === 3) {
       return gen100to999Phrase();
-
-    // Covers numbers 1000 to 9999
     } else if (number.value.length === 4) {
       return gen1000to9999Phrase();
- 
-    // Covers numbers 10,000 to 99,999
     } else if (number.value.length === 5) {
+      return genTenThousandsPhrase();
+    } else if (number.value.length === 6) {
+    
+    } else if (number.value.length === 7) {
+    
+    } else if (number.value.length === 8) {
+    
+    } else if (number.value.length === 9) {
+    
+    } else if (number.value.length === 10) {
+    
+    } else if (number.value.length === 11) {
+    
+    } else if (number.value.length === 12) {
+    
+    } else if (number.value.length === 13) {
     
     }
 
