@@ -49,11 +49,15 @@ window.onload = () => {
 
    // *Covers numbers 0 to 9*
   function genLessThanTenPhrase() {
-    const lastDigit = number.value.length - 1;
-    const valueOfLastDigit = number.value[lastDigit];
+    const lastIndex = number.value.length - 1;
+    const valueOfLastDigit = number.value[lastIndex];
     const lessThanTenPhrase = baseNums[valueOfLastDigit];
 
-    engPhrase.textContent = lessThanTenPhrase;
+    if (number.value.length >= 3) {
+      engPhrase.textContent = `and ${lessThanTenPhrase}`;
+    } else {
+      engPhrase.textContent = lessThanTenPhrase;
+    }
     return engPhrase.textContent;
   }
 
@@ -67,7 +71,7 @@ window.onload = () => {
     const lessThanTenPhrase = genLessThanTenPhrase();
 
     if (number.value.length === 2 && baseNums[number.value]) {
-      engPhrase.textContent = multOfTenPhrase;
+      engPhrase.textContent = baseNums[number.value];
     } else {
       engPhrase.textContent = valueOfSecondToLastDigit === '0' ? `${lessThanTenPhrase}` : `${multOfTenPhrase}-${lessThanTenPhrase}`;
     }
@@ -80,8 +84,6 @@ window.onload = () => {
     const lastTwoDigits = slicedNumber(2);
     const thirdToLastIndex = number.value.length - 3;
     const valueOfThirdToLastDigit = number.value[thirdToLastIndex];
-
-    // Phrasal chunks
     const hundredPhrase = baseNums[valueOfThirdToLastDigit] === 'zero' ? '' : `${baseNums[valueOfThirdToLastDigit]} hundred`;
     const lessThan100Phrase = genLessThan100Phrase();
     const fullPhrase = baseNums[lastTwoDigits] ? `${hundredPhrase} ${baseNums[lastTwoDigits]}` : `${hundredPhrase} ${lessThan100Phrase}`;
@@ -96,8 +98,6 @@ window.onload = () => {
     const lastThreeDigits = slicedNumber(3);
     const fourthToLastIndex = number.value.length - 4;
     const valueOfFourthToLastDigit = number.value[fourthToLastIndex];
-
-    // Phrasal chunks
     const thousandPhrase = valueOfFourthToLastDigit === '0' ? '' : `${baseNums[valueOfFourthToLastDigit]} thousand`;
     const hundredPhrase = gen100to999Phrase();
 
@@ -109,14 +109,12 @@ window.onload = () => {
   // Covers numbers 10,000 to 99,000
   function genTenThousandsPhrase() {
     const lastFourDigits = slicedNumber(4);
-    const fifthToLastIndex = number.value.length - 5;
-    const valueOfFifthToLastIndex = number.value[fifthToLastIndex];
+    const secondDigit = number.value[1];
     const multOfTenPhrase = genMultipleOfTenPhrase(number.value[0]);
-    console.log(`multOfTenPhrase is ${multOfTenPhrase}`);
+    const tenThousandPhrase = secondDigit === '0' ? `${multOfTenPhrase} thousand` : `${multOfTenPhrase}-${baseNums[number.value[1]]} thousand`;
+    const hundredPhrase = gen100to999Phrase();
 
-    // Phrase chunks 
-    const tenThousandPhrase = `${multOfTenPhrase} thousand`;
-    engPhrase.textContent = tenThousandPhrase;
+    engPhrase.textContent = `${tenThousandPhrase} ${hundredPhrase}`;
     return engPhrase.textContent;
   }
 
