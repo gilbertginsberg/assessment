@@ -2,7 +2,7 @@
   "name": "digitalnatives-assessment",
   "version": "1.0.0",
   "description": "Frontend task for Digital Natives",
-  "main": "index.js",
+  "main": "public/index.js",
   "scripts": {
     "test": "mocha"
   },
