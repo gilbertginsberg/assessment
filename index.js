@@ -105,8 +105,8 @@ window.onload = () => {
   // Covers numbers 10,000 to 99,000
   function genTenThousandPhrase() {
     const fourthToLastIndex = unPaddedNumber.length - 4;
-    const valueOfFourthToLastDigit = unPaddedNumber[fourthToLastIndex];
     const fifthToLastIndex = unPaddedNumber.length - 5;
+    const valueOfFourthToLastDigit = unPaddedNumber[fourthToLastIndex];
     const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
     const fourthAndFifthToLastDigits = `${valueOfFifthToLastDigit}${valueOfFourthToLastDigit}`;
     const multOfTenPhrase = genMultipleOfTenPhrase(valueOfFifthToLastDigit);
@@ -126,8 +126,8 @@ window.onload = () => {
   // Covers numbers 100,000 to 999,999
   function gen100ThousandPhrase() {
     const fifthToLastIndex = unPaddedNumber.length - 5;
-    const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
     const sixthToLastIndex = unPaddedNumber.length - 6;
+    const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
     const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
     const tenThousandPhrase = genTenThousandPhrase();
     const thousandPhrase = gen1000to9999Phrase();
@@ -148,19 +148,22 @@ window.onload = () => {
   // Covers numbers 1,000,000 to 9,999,999
   function genMillionPhrase() {
     const thirdToLastIndex = unPaddedNumber.length - 3;
+    const fifthToLastIndex = unPaddedNumber.length - 5;
     const sixthToLastIndex = unPaddedNumber.length - 6;
-    const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
     const seventhToLastIndex = unPaddedNumber.length - 7;
+    const valueOfFifthToLastDigit = unPaddedNumber[fifthToLastIndex];
+    const valueOfSixthToLastDigit = unPaddedNumber[sixthToLastIndex];
     const valueOfSeventhToLastDigit = unPaddedNumber[seventhToLastIndex];
     const digitsOfThousandRange = unPaddedNumber.slice(sixthToLastIndex, thirdToLastIndex);
+    const thousandPhrase = gen1000to9999Phrase();
     const hundredPhrase = gen100to999Phrase();
     const hundredThousandPhrase = gen100ThousandPhrase();
     const millionPhrase = `${baseNums[valueOfSeventhToLastDigit]} million`;
 
     if (digitsOfThousandRange === '000') {
       engPhrase.textContent = `${millionPhrase} ${hundredPhrase}`;
-    } else if (valueOfSixthToLastDigit === '0') {
-      engPhrase.textContent = `${millionPhrase} ${hundredThousandPhrase}`;
+    } else if (valueOfSixthToLastDigit === '0' && valueOfFifthToLastDigit === '0') {
+      engPhrase.textContent = `${millionPhrase} ${thousandPhrase}`;
     } else {
       engPhrase.textContent = `${millionPhrase} ${hundredThousandPhrase}`;
     }
