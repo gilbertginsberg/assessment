@@ -1,5 +1,5 @@
 {
-  "name": "assessment",
+  "name": "digitalnatives-assessment",
   "version": "1.0.0",
   "description": "Frontend task for Digital Natives",
   "main": "index.js",
@@ -16,9 +16,9 @@
   "author": "Steve Gilbert",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gilbertginsberg/assessment/issues"
+    "url": "https://github.com/gilbertginsberg/digitalnatives-assessment/issues"
   },
-  "homepage": "https://github.com/gilbertginsberg/assessment#readme",
+  "homepage": "https://github.com/gilbertginsberg/digitalnatives-assessment#readme",
   "devDependencies": {
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
